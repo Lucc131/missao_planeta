@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Missão Planeta</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --card: #ffffff;
+      --ink: #1d4a35;
+      --mut: #4f6f60;
+      --line: #c9e7d2;
+      --acc: #2a8a46;
+      --btn: #2f8f45;
+      --btnt: #ffffff;
+      --sun: #ffd23f;
+      --lime: #9bdc5a;
+      --pink: #f59a8c;
+      --sea: #5ec3ee;
+      --i1: #e3f6e9;
+      --i2: #dff5cf;
+      --i3: #d6eefb;
+      --i4: #fff1b8;
+      color-scheme: light;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    /* tema claro fixo: fundo branco */
+    :root[data-theme="dark"] {
+      --bg: #0a1b2e;
+      --card: #122a44;
+      --ink: #eef6f6;
+      --mut: #a9c0d3;
+      --line: #25496a;
+      --acc: #6fe3d6;
+      --btn: #b8e84a;
+      --btnt: #0d2b45;
+      --i1: #4a2a3a;
+      --i2: #2c4a24;
+      --i3: #1d3f66;
+      --i4: #4d4220;
+      color-scheme: dark
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 400 18px/1.55 "Atkinson Hyperlegible", system-ui, sans-serif
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0 0 auto;
+      height: env(safe-area-inset-top, 0px);
+      background: var(--card);
+      z-index: 10
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: Fredoka, "Arial Rounded MT Bold", system-ui, sans-serif;
+      font-weight: 700;
+      line-height: 1.1;
+      margin: 0 0 12px
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 8vw, 3.2rem)
+    }
+
+    h2 {
+      font-size: 1.8rem
+    }
+
+    h3 {
+      font-size: 1.25rem
+    }
+
+    p {
+      margin: 0 0 12px
+    }
+
+    a {
+      color: inherit
+    }
+
+    :focus-visible {
+      outline: 4px solid var(--sun);
+      outline-offset: 3px
+    }
+
+    header {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      z-index: 9;
+      background: var(--card);
+      border-bottom: 2px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 16px
+    }
+
+    .logo {
+      font: 700 1.3rem Fredoka, system-ui, sans-serif;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .ages {
+      display: flex;
+      gap: 6px
+    }
+
+    .ages button {
+      font: inherit;
+      font-weight: 700;
+      font-size: .95rem;
+      min-height: 44px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 2px solid var(--line);
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer
+    }
+
+    .ages button[aria-pressed="true"] {
+      background: var(--btn);
+      color: var(--btnt);
+      border-color: var(--btn)
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 20px 16px 56px
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 24px;
+      border-radius: 999px;
+      border: 0;
+      background: var(--btn);
+      color: var(--btnt);
+      font: 700 1.05rem Fredoka, system-ui, sans-serif;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 5px 0 rgba(0, 0, 0, .25)
+    }
+
+    .btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 rgba(0, 0, 0, .25)
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 2px solid var(--ink);
+      box-shadow: none
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px
+    }
+
+    .card {
+      background: var(--card);
+      border: 2px solid var(--line);
+      border-radius: 28px;
+      padding: 22px;
+      margin-bottom: 18px
+    }
+
+    .hero {
+      background: radial-gradient(circle at 90% 10%, #ffe27a 0 54px, transparent 56px), linear-gradient(160deg, #d7f2bf 0%, #bfe7f7 100%);
+      color: #1d4a35;
+      border-radius: 44px 44px 44px 12px;
+      padding: 28px 22px 24px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 22px
+    }
+
+    .hero p {
+      max-width: 30ch;
+      font-size: 1.1rem
+    }
+
+    .hero .btn {
+      background: #2f8f45;
+      color: #fff
+    }
+
+    .hero .btn.ghost {
+      background: transparent;
+      color: #1d4a35;
+      border-color: #1d4a35
+    }
+
+    .globe {
+      position: absolute;
+      right: -30px;
+      bottom: -34px;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #bfe9ff, #6fcf8f 55%, #3a9fd0);
+      display: grid;
+      place-items: center;
+      font-size: 4.6rem;
+      opacity: .95
+    }
+
+    .tuti {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 18px
+    }
+
+    .face {
+      flex: none;
+      width: 64px;
+      height: 64px;
+      border-radius: 50% 50% 46% 54%;
+      background: var(--lime);
+      display: grid;
+      place-items: center;
+      font-size: 2.2rem
+    }
+
+    .tuti p {
+      margin: 0;
+      background: var(--card);
+      border: 2px solid var(--line);
+      border-radius: 6px 24px 24px 24px;
+      padding: 12px 16px
+    }
+
+    .bar {
+      height: 16px;
+      border-radius: 99px;
+      background: var(--line);
+      overflow: hidden;
+      margin-top: 10px
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--sea), var(--lime));
+      border-radius: 99px;
+      transition: width .4s
+    }
+
+    .map {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      padding: 10px 0
+    }
+
+    .map::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 20px;
+      bottom: 20px;
+      border-left: 5px dotted var(--sea);
+      transform: translateX(-50%);
+      opacity: .6
+    }
+
+    .stop {
+      position: relative;
+      width: 80%;
+      padding: 20px 22px;
+      text-decoration: none;
+      color: var(--ink);
+      border: 3px solid var(--ink);
+      display: block
+    }
+
+    .stop b {
+      display: block;
+      font: 700 1.3rem Fredoka, system-ui, sans-serif;
+      line-height: 1.15
+    }
+
+    .stop span.s {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: var(--card);
+      font-weight: 700;
+      font-size: .95rem
+    }
+
+    .stop .ic {
+      font-size: 2.3rem;
+      display: block;
+      margin-bottom: 4px
+    }
+
+    .stop.l {
+      align-self: flex-start
+    }
+
+    .stop.r {
+      align-self: flex-end
+    }
+
+    .k0 {
+      background: var(--i1);
+      border-radius: 60% 40% 55% 45%/50% 55% 45% 50%
+    }
+
+    .k1 {
+      background: var(--i2);
+      border-radius: 45% 55% 40% 60%/55% 45% 55% 45%
+    }
+
+    .k2 {
+      background: var(--i3);
+      border-radius: 55% 45% 60% 40%/45% 55% 45% 55%
+    }
+
+    .k3 {
+      background: var(--i4);
+      border-radius: 40% 60% 45% 55%/60% 40% 55% 45%
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      font-weight: 700;
+      margin-bottom: 10px
+    }
+
+    .big-ico {
+      font-size: 3rem
+    }
+
+    .pts {
+      padding-left: 1.2em;
+      margin: 0
+    }
+
+    .pts li {
+      margin-bottom: 12px
+    }
+
+    .lesson {
+      font-size: 1.25rem
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px
+    }
+
+    .dots i {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--line)
+    }
+
+    .dots i.on {
+      background: var(--sea)
+    }
+
+    .opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      font: inherit;
+      color: var(--ink);
+      background: var(--bg);
+      border: 3px solid var(--line);
+      border-radius: 20px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      min-height: 56px;
+      cursor: pointer
+    }
+
+    .opt.ok {
+      background: var(--i2);
+      border-color: #4caf50
+    }
+
+    .opt.no {
+      background: var(--i1);
+      border-color: var(--pink)
+    }
+
+    .fb {
+      padding: 12px 16px;
+      border-radius: 16px;
+      background: var(--i4);
+      margin: 12px 0
+    }
+
+    .chal {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start
+    }
+
+    .chal .ci {
+      font-size: 2.2rem
+    }
+
+    .chal.done {
+      background: var(--i2)
+    }
+
+    .sub {
+      color: var(--mut)
+    }
+
+    body.w {
+      background: var(--card)
+    }
+
+    .prize {
+      text-align: center
+    }
+
+    .prize .medal {
+      font-size: 4.5rem;
+      line-height: 1;
+      margin-bottom: 8px
+    }
+
+    .tip {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      border: 2px solid var(--line);
+      border-radius: 22px;
+      padding: 16px;
+      margin-bottom: 12px;
+      background: var(--card)
+    }
+
+    .tip .ti {
+      font-size: 2rem
+    }
+
+    .tip h3 {
+      margin-bottom: 4px
+    }
+
+    .tip p {
+      margin: 0
+    }
+
+    .why {
+      background: var(--i4);
+      border-radius: 28px 28px 28px 8px;
+      padding: 20px;
+      margin: 18px 0
+    }
+
+    .lock {
+      opacity: .8
+    }
+
+    .horta {
+      font-size: 1.8rem;
+      letter-spacing: 6px;
+      margin-bottom: 6px
+    }
+
+    .scene {
+      font-size: 4rem;
+      text-align: center;
+      background: var(--i3);
+      border-radius: 28px;
+      padding: 22px 10px;
+      margin: 12px 0;
+      min-height: 130px;
+      line-height: 1.2
+    }
+
+    .scene small {
+      display: block;
+      font-size: 1.05rem;
+      margin-top: 8px;
+      font-weight: 700
+    }
+
+    .linkbtn {
+      background: none;
+      border: 0;
+      font: inherit;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+      padding: 8px 0;
+      margin-bottom: 6px;
+      min-height: 44px;
+      text-decoration: underline
+    }
+
+    .tapbox {
+      position: relative;
+      height: 190px;
+      background: var(--i3);
+      border-radius: 28px;
+      margin: 12px 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center
+    }
+
+    .spout {
+      margin-top: 14px;
+      width: 90px;
+      height: 26px;
+      border-radius: 14px 14px 4px 4px;
+      background: #8aa0ad
+    }
+
+    .stream {
+      width: 30px;
+      height: 120px;
+      background: repeating-linear-gradient(180deg, #5ec3ee 0 12px, #9adcf6 12px 24px)
+    }
+
+    .pool {
+      position: absolute;
+      bottom: 0;
+      height: 16px;
+      border-radius: 50%;
+      background: #5ec3ee;
+      opacity: .7;
+      width: 40px;
+      left: 50%;
+      transform: translateX(-50%)
+    }
+
+    .knobwrap {
+      display: flex;
+      justify-content: center;
+      margin: 14px 0
+    }
+
+    .knob {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #bfe9ff, #5ec3ee);
+      border: 8px solid #3a9fd0;
+      position: relative;
+      touch-action: none;
+      cursor: grab
+    }
+
+    .knob::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 10px;
+      width: 12px;
+      height: 52px;
+      margin-left: -6px;
+      border-radius: 8px;
+      background: #fff
+    }
+
+    .chip {
+      display: inline-block;
+      background: var(--i4);
+      border-radius: 99px;
+      padding: 6px 16px;
+      font-weight: 700
+    }
+
+    .field {
+      position: relative;
+      height: 340px;
+      border-radius: 28px;
+      overflow: hidden;
+      margin-top: 10px;
+      touch-action: manipulation
+    }
+
+    .field.rio {
+      background: linear-gradient(180deg, #bfe9ff, #7fd0f0 50%, #5ec3ee)
+    }
+
+    .field.rio::before,
+    .field.rio::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 34px;
+      background: #9bdc5a
+    }
+
+    .field.rio::before {
+      top: 0
+    }
+
+    .field.rio::after {
+      bottom: 0
+    }
+
+    .field.rua {
+      background: repeating-linear-gradient(180deg, transparent 0 40px, rgba(255, 255, 255, .8) 40px 70px) 50%/8px 100% no-repeat, #c9ced3
+    }
+
+    .it {
+      position: absolute;
+      width: 56px;
+      height: 56px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .6);
+      font-size: 2rem;
+      line-height: 1;
+      padding: 0;
+      cursor: pointer;
+      display: grid;
+      place-items: center
+    }
+
+    @media (prefers-reduced-motion:no-preference) {
+      .stream {
+        animation: flow .35s linear infinite
+      }
+
+      @keyframes flow {
+        to {
+          background-position: 0 24px
+        }
+      }
+    }
+
+    @media (prefers-reduced-motion:no-preference) {
+      .face {
+        animation: bob 3s ease-in-out infinite
+      }
+
+      @keyframes bob {
+        50% {
+          transform: translateY(-5px)
+        }
+      }
+    }
+
+    @media (min-width:600px) {
+      .stop {
+        width: 62%
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a class="logo" href="#inicio"><span aria-hidden="true">🌍</span>Missão Planeta</a>
+    <div class="ages" id="ages" role="group" aria-label="Faixa etária"></div>
+  </header>
+  <main id="app"></main>
+  <script>
+    (function () {
+      var KEY = "missao-planeta-mapa-v1";
+      var S = {age: "a", visited: {}, trail: false, quiz: null, ch: [false, false, false]};
+      try {var r = localStorage.getItem(KEY); if (r) {S = Object.assign(S, JSON.parse(r));} } catch (e) { }
+      var save = function () {try {localStorage.setItem(KEY, JSON.stringify(S));} catch (e) { } };
+      var $ = function (s) {return document.querySelector(s);};
+
+      var E = {
+        "ilha-respeito": {
+          i: "🤝", n: "Ilha do Respeito", t: "Ética e cidadania", next: ["ilha-natureza", "Seguir para a Ilha da Natureza"],
+          a: ["Ouvir quem fala com a gente é um jeito de dizer “eu me importo”.", "Cada pessoa é diferente, e isso deixa o mundo mais legal.", "Cuidar da sala, da escola e da rua é cuidar de todo mundo."],
+          b: ["Empatia é tentar entender o que o outro sente, mesmo quando pensamos diferente.", "A diversidade de ideias, culturas e jeitos de ser enriquece a convivência.", "Nossas atitudes no grupo, na escola e nas redes afetam outras pessoas: isso é responsabilidade coletiva."]
+        },
+        "ilha-consumo": {
+          i: "♻️", n: "Ilha do Consumo Consciente", t: "Sustentabilidade", next: ["praia-desafios", "Seguir para a Praia dos Desafios"],
+          a: ["Antes de jogar fora, pense: dá para usar de novo?", "Papel, plástico, vidro e metal podem ser separados para reciclar.", "Comprar só o que a gente precisa evita muito lixo."],
+          b: ["Consumo consciente é perguntar: eu preciso disso? De onde vem? Para onde vai depois?", "Reduzir, reutilizar e reciclar: nessa ordem, o melhor lixo é o que nem chega a existir.", "Pequenas escolhas repetidas por muita gente geram um grande impacto."]
+        }
+      };
+      var LES = {
+        a: ["A Tuti cuida da horta da escola e hoje precisa da sua ajuda! Toda planta, bicho e pessoa precisa de água para viver.", "A água limpa é um tesouro e pode ficar escassa se a gente desperdiçar. Por isso, cada gota conta.", "Em casa e na escola você pode ajudar: fechar a torneira, tomar banhos mais curtos e avisar um adulto sobre vazamentos. Agora é a sua vez de decidir pelo destino da horta!"],
+        b: ["A horta da escola está em perigo e a Tuti conta com você. A água circula pelo planeta, mas a água doce disponível é limitada e depende de rios, nascentes e chuvas.", "Desperdício, poluição e desmatamento ameaçam as fontes de água e a vida que depende delas, inclusive a nossa horta.", "Hábitos simples somam: fechar torneiras, reaproveitar água, tomar banhos curtos e cobrar conserto de vazamentos. Agora suas decisões vão mudar o destino da horta!"]
+      };
+      var QZ = [
+        {q: "A torneira do pátio está pingando e ninguém percebeu. O que você faz?", o: ["Finjo que não vi", "Aviso um adulto responsável", "Abro mais para lavar o pátio", "Espero alguém reclamar"], c: 1, f: "O zelador consertou a torneira e a água economizada foi usada para regar a horta.", w: ["A torneira continuou pingando o dia todo, a poça cresceu e a água da horta acabou. As plantinhas começaram a murchar.", "", "A água jorrou à toa e escorreu pelo ralo. Sem água para regar, as mudinhas ficaram com muita sede.", "Todo mundo achou que outra pessoa ia avisar, e o vazamento seguiu. A horta passou o dia sem água."]},
+        {q: "É hora de escovar os dentes antes do recreio. O que ajuda a economizar água?", o: ["Deixar a torneira aberta o tempo todo", "Fechar a torneira enquanto escova", "Usar água em dobro para enxaguar", "Nem pensar em economizar"], c: 1, f: "A água que sobrou foi para a horta, e as plantas ficaram bem viçosas.", w: ["Você deixou a torneira aberta e a água correu sem parar. O reservatório esvaziou, as plantas torraram com o sol e murcharam.", "", "Com tanta água gasta, a caixa d’água ficou quase vazia e a horta não foi regada.", "A água acabou antes do fim do dia e a horta ficou seca. As folhas começaram a cair."]},
+        {q: "Como regar a horta gastando pouca água?", o: ["Com a mangueira ligada por uma hora", "Com um regador, de manhã cedo ou no fim da tarde", "Ao meio-dia, com o sol a pino", "Não regar e esperar a chuva"], c: 1, f: "Com menos sol, a água evapora menos e as plantas aproveitam melhor cada gota.", w: ["A mangueira encharcou a terra e a água escorreu pelo chão, faltando para o resto da escola. As raízes ficaram alagadas.", "", "Com o sol forte, a água evaporou rápido e as plantas continuaram com sede.", "Não choveu naquela semana e a horta secou. As flores murcharam."]}
+      ];
+      var CH = [
+        {i: "💧", n: "Guardião da água", d: "Feche a torneira ao escovar os dentes e conte a alguém por que isso importa."},
+        {i: "♻️", n: "Separação consciente", d: "Separe os resíduos de casa e descubra o que pode ser reciclado."},
+        {i: "💛", n: "Gesto de respeito", d: "Faça um elogio sincero ou ajude alguém sem esperar nada em troca."}
+      ];
+      var step = 0, qi = 0, sc = 0, ans = null, wrong = null, first = true, pm = "menu", ps = 0, gd = 0, tp = {s: 0, rot: 0, t0: 0, res: null}, cm = "menu", cl = {s: 0};
+
+      function prog() {return (S.trail ? 1 : 0) + (S.quiz != null ? 1 : 0) + S.ch.filter(Boolean).length;}
+      function level(n) {return n < 1 ? "Explorador" : n < 3 ? "Aprendiz verde" : n < 5 ? "Guardião" : "Guardião do Planeta";}
+      function msg(n) {return n === 0 ? "Oi! Eu sou a Tuti. Vamos explorar as ilhas juntos?" : n < 3 ? "Boa! Continue pelo mapa, cada etapa conta." : n < 5 ? "Falta pouco para virar Guardião do Planeta!" : "Missão cumprida! Seu prêmio está esperando no fim do mapa.";}
+      function bar(n) {return '<div class="bar" role="progressbar" aria-label="Progresso" aria-valuemin="0" aria-valuemax="5" aria-valuenow="' + n + '"><i style="width:' + (n * 20) + '%"></i></div>';}
+      function tuti(m) {return '<div class="tuti"><span class="face" aria-hidden="true">🐢</span><p>' + m + '</p></div>';}
+
+      var V = {
+        inicio: function () {return '<section class="hero"><h1>Uma ilha de cada vez, a gente cuida do mundo.</h1><p>Explore o mapa com a Tuti, aprenda sobre ética, natureza e consumo consciente e complete missões do dia a dia.</p><div class="row"><a class="btn" href="#mapa">Começar a jornada</a><a class="btn ghost" href="#sobre">Conhecer o projeto</a></div><div class="globe" aria-hidden="true">🌱</div></section>' + tuti("Escolha sua faixa etária lá em cima e siga o mapa. Seu progresso fica guardado neste aparelho.");},
+        mapa: function () {
+          var n = prog(), c = S.ch.filter(Boolean).length;
+          var st = [["ilha-respeito", "🤝", "Ilha do Respeito", "Ética e cidadania", S.visited["ilha-respeito"] ? "Visitada ✓" : "Explorar"],
+          ["ilha-natureza", "🌳", "Ilha da Natureza", "A história da horta da Tuti", S.trail && S.quiz != null ? "Concluída ✓" : S.trail ? "Falta o quiz" : "Iniciar trilha"],
+          ["ilha-pratica", "🌱", "Oficina da Natureza", "Plante, cuide e economize água", S.plant && S.tree && S.tap != null ? "Concluída ✓" : "Bônus: jogar"],
+          ["ilha-limpeza", "🧹", "Mutirão da Limpeza", "Rio, lagoa e ruas em 30 segundos", S.rio != null && S.rua != null ? "Concluída ✓" : "Bônus: jogar"],
+          ["ilha-consumo", "♻️", "Ilha do Consumo Consciente", "Sustentabilidade", S.visited["ilha-consumo"] ? "Visitada ✓" : "Explorar"],
+          ["praia-desafios", "🏖️", "Praia dos Desafios", "Três missões fora da tela", c + " de 3 feitos"], ["premio", "🏆", "Prêmio do Guardião", "Dicas para um mundo melhor", n === 5 ? "Abrir prêmio" : "Conclua as 5 etapas"]];
+          return tuti(msg(n)) + '<div class="card"><h3>' + level(n) + '</h3><p class="sub" style="margin:0">' + n + ' de 5 etapas concluídas</p>' + bar(n) + '</div><div class="map">' +
+            st.map(function (s, i) {return '<a class="stop k' + (i % 4) + ' ' + (i % 2 ? "r" : "l") + '" href="#' + s[0] + '"><span class="ic" aria-hidden="true">' + s[1] + '</span><b>' + s[2] + '</b><span class="sub" style="color:inherit;opacity:.8">' + s[3] + '</span><br><span class="s">' + s[4] + '</span></a>';}).join("") + '</div>';
+        },
+        "ilha-respeito": function () {return ilha("ilha-respeito");},
+        "ilha-consumo": function () {return ilha("ilha-consumo");},
+        "ilha-pratica": function () {return pratica();},
+        "ilha-limpeza": function () {return limpeza();},
+        "ilha-natureza": function () {
+          var back = '<a class="back" href="#mapa">Voltar ao mapa</a>';
+          if (step < 3) {
+            var L = LES[S.age], d = ""; for (var i = 0; i < 3; i++)d += '<i class="' + (i <= step ? "on" : "") + '"></i>';
+            return back + '<section class="card"><div class="big-ico" aria-hidden="true">🌳</div><h2>A horta da Tuti</h2><div class="dots" aria-label="Lição ' + (step + 1) + ' de 3">' + d + '</div><p class="lesson">' + L[step] + '</p><div class="row">' + (step > 0 ? '<button class="btn ghost" data-act="prev">Voltar</button>' : "") + '<button class="btn" data-act="next">' + (step < 2 ? "Próxima" : "Ir para o quiz") + '</button></div></section>';
+          }
+          if (step === 3) {
+            var q = QZ[qi], o = "", hz = ""; for (var j = 0; j < QZ.length; j++)hz += j < qi ? "🌻" : (j === qi && wrong !== null ? "🥀" : "🌱");
+            if (wrong !== null) return back + '<section class="card"><div class="horta" aria-hidden="true">' + hz + '</div><h2>Ah, não!</h2><p class="lesson">' + q.w[wrong] + '</p><p class="sub">Responda de novo para salvar a horta.</p><button class="btn" data-act="retry">Tentar de novo</button></section>';
+            q.o.forEach(function (t, i) {var cl = "opt"; if (ans !== null && i === q.c) cl += " ok"; o += '<button class="' + cl + '" data-act="ans" data-i="' + i + '"' + (ans !== null ? " disabled" : "") + '>' + t + '</button>';});
+            var fb = ans === null ? "" : '<div class="fb" role="status"><b>' + "Isso aí!" + '</b> ' + q.f + '</div><button class="btn" data-act="qnext">' + (qi < QZ.length - 1 ? "Próxima pergunta" : "Ver resultado") + '</button>';
+            return back + '<section class="card"><div class="horta" aria-hidden="true">' + hz + '</div><p class="sub">Decisão ' + (qi + 1) + ' de ' + QZ.length + '</p><h2>' + q.q + '</h2>' + o + fb + '</section>';
+          }
+          return back + '<section class="card"><div class="big-ico" aria-hidden="true">🏅</div><h2>A horta está salva!</h2><p>Você acertou ' + sc + ' de ' + QZ.length + ' de primeira. ' + (sc === QZ.length ? "Nenhuma planta murchou: guardião da água de verdade!" : "Cada erro virou aprendizado, e a horta floresceu mesmo assim.") + '</p><div class="row"><a class="btn" href="#praia-desafios">Ir para os desafios</a><button class="btn ghost" data-act="redo">Jogar de novo</button></div></section>';
+        },
+        "praia-desafios": function () {
+          var c = S.ch.filter(Boolean).length;
+          return '<a class="back" href="#mapa">Voltar ao mapa</a><h2>Praia dos Desafios</h2><p class="sub">Missões para fazer fora da tela. Marque quando concluir.</p>' +
+            CH.map(function (x, i) {var d = S.ch[i]; return '<section class="card chal' + (d ? " done" : "") + '"><span class="ci" aria-hidden="true">' + x.i + '</span><div><h3>' + x.n + '</h3><p>' + x.d + '</p><button class="btn' + (d ? " ghost" : "") + '" data-act="ch" data-i="' + i + '" aria-pressed="' + d + '">' + (d ? "Feito ✓ (desfazer)" : "Marcar como feito") + '</button></div></section>';}).join("") +
+            (c === 3 ? (prog() === 5 ? tuti("Três de três! Você completou a missão.") + '<a class="btn" href="#premio">Abrir meu prêmio</a>' : tuti("Desafios completos! Falta a trilha e o quiz da Ilha da Natureza.") + '<a class="btn" href="#ilha-natureza">Ir para a Ilha da Natureza</a>') : "");
+        },
+        premio: function () {
+          if (prog() < 5) return '<a class="back" href="#mapa">Voltar ao mapa</a><section class="card prize lock"><div class="medal" aria-hidden="true">🔒</div><h2>Prêmio ainda fechado</h2><p>Conclua as 5 etapas (trilha, quiz e 3 desafios) para abrir o seu prêmio. Você está com ' + prog() + ' de 5.</p><a class="btn" href="#mapa">Voltar ao mapa</a></section>';
+          var W = {a: "Cada atitude pequena parece pouco, mas, quando muita gente faz junto, a água fica mais limpa, os bichos têm onde viver e o lugar onde moramos fica melhor para todos, inclusive para quem ainda vai nascer.", b: "Água, ar limpo e biodiversidade são limitados e compartilhados. Escolhas individuais repetidas por muita gente viram hábitos coletivos, influenciam a escola e a comunidade e ajudam a garantir um futuro mais justo e saudável para as próximas gerações."};
+          var T = [["💧", "Cuide da água", "Feche a torneira ao escovar os dentes, tome banhos mais curtos e avise um adulto quando houver vazamento."], ["♻️", "Pense antes de descartar", "Reduza o que consome, reutilize o que puder e separe o lixo para reciclar."], ["🌱", "Proteja a natureza", "Não jogue lixo no chão nem em rios, cuide de plantas e respeite os animais."], ["🤝", "Cuide das pessoas", "Ouça com atenção, respeite as diferenças e ajude quem precisa."], ["📣", "Espalhe a ideia", "Conte o que aprendeu para a família e os amigos e convide alguém para a missão."]];
+          return '<section class="card prize"><div class="medal" aria-hidden="true">🏆</div><h1>Você é Guardião do Planeta!</h1><p class="lesson">Você concluiu a trilha, o quiz e os três desafios. Parabéns pela missão!</p></section><div class="why"><h3>Por que isso importa</h3><p style="margin:0">' + W[S.age] + '</p></div><h2>Como deixar o mundo cada vez melhor</h2>' + T.map(function (t) {return '<div class="tip"><span class="ti" aria-hidden="true">' + t[0] + '</span><div><h3>' + t[1] + '</h3><p>' + t[2] + '</p></div></div>';}).join("") + '<section class="card"><h3>Seu próximo passo</h3><p style="margin:0">Escolha uma dessas ações e repita por uma semana. Hábitos pequenos e constantes é que mudam o mundo.</p></section><div class="row"><button class="btn ghost" data-act="conf">Soltar confetes</button><a class="btn" href="#mapa">Voltar ao mapa</a></div>';
+        },
+        sobre: function () {return '<h2>Sobre o projeto</h2><div class="card"><p>Missão Planeta é um site educativo para crianças e adolescentes de 8 a 16 anos. A linguagem muda conforme a faixa etária escolhida.</p><h3>Três eixos</h3><ul class="pts"><li>Ética e cidadania</li><li>Meio ambiente</li><li>Sustentabilidade</li></ul></div><div class="card"><h3>Como funciona</h3><p>Não há cadastro nem banco de dados. Seu progresso fica salvo apenas neste navegador.</p><button class="btn ghost" data-act="reset">Apagar meu progresso</button></div><a class="btn" href="#mapa">Abrir o mapa</a>';}
+      };
+      function fmt(n) {return n.toFixed(1).replace(".", ",");}
+      function pratica() {
+        if (pm === "plant") return plantUI();
+        if (pm === "tree") return treeUI();
+        if (pm === "tap") return tapUI();
+        return '<a class="back" href="#mapa">Voltar ao mapa</a><h2>Oficina da Natureza</h2><p class="sub">Aprenda fazendo! São três atividades interativas.</p><section class="card"><div class="big-ico" aria-hidden="true">🫘</div><h3>Plante um feijão</h3><p>Siga o passo a passo e veja a plantinha crescer. No final, você aprende a fazer de verdade em casa.</p><button class="btn" data-act="pm" data-v="plant">' + (S.plant ? "Plantar de novo ✓" : "Começar") + '</button></section><section class="card"><div class="big-ico" aria-hidden="true">🌳</div><h3>Plante uma árvore</h3><p>Veja como uma muda vira árvore e por que ela ajuda tanto o ambiente, inclusive com o oxigênio que respiramos.</p><button class="btn" data-act="pm" data-v="tree">' + (S.tree ? "Plantar de novo ✓" : "Começar") + '</button></section><section class="card"><div class="big-ico" aria-hidden="true">🚰</div><h3>Feche a torneira</h3><p>Gire o botão o mais rápido que puder e descubra quantos litros de água você economiza.</p>' + (S.tap != null ? '<p class="sub">Recorde: ' + fmt(S.tap) + ' L economizados</p>' : "") + '<button class="btn" data-act="pm" data-v="tap">Jogar</button></section>';
+      }
+      function plantUI() {
+        var back = '<button class="linkbtn" data-act="pm" data-v="menu">Voltar à oficina</button>';
+        var SC = ["❔", "🫞", "🫞☁️", "🫞☁️🫘", "🫞☁️🫘💧", "🫞☁️🫘☀️"];
+        var PL = [["Reaproveite um pote", "Em vez de comprar um vaso, use um pote de vidro ou um copo que iria para o lixo.", "Pegar um pote reutilizado"], ["Coloque algodão", "O algodão guarda a umidade. Se preferir, pode usar terra.", "Colocar o algodão"], ["Ponha o feijão", "Escolha um feijão inteiro e coloque no meio do algodão.", "Colocar o feijão"], ["Regue com pouca água", "Basta umedecer o algodão, sem encharcar. Água demais atrapalha a planta e gasta recurso à toa.", "Regar um pouquinho"], ["Leve para a luz", "A plantinha precisa da luz do dia para crescer forte.", "Colocar perto da janela"]];
+        var GR = [["🫘", "Dia 2: a semente incha com a umidade."], ["🌱", "Dia 4: nasce a raiz e surge o broto."], ["🌿", "Dia 7: aparecem as primeiras folhinhas."], ["🪴", "Dia 12: a plantinha cresce, e foi você quem cuidou dela!"]];
+        if (gd >= 4) return back + '<section class="card prize"><div class="medal" aria-hidden="true">🪴</div><h2>Seu feijão cresceu!</h2><p class="lesson">Você plantou, regou com pouca água e cuidou da luz.</p></section><div class="why"><h3>Dá para fazer de verdade!</h3><ol class="pts"><li>Pegue um pote ou copo que iria para o lixo.</li><li>Coloque algodão umedecido (ou terra).</li><li>Ponha um feijão no meio.</li><li>Molhe só um pouquinho e deixe perto de uma janela com luz.</li><li>Em poucos dias aparece o broto. Depois, passe para a terra ou para um vaso.</li></ol><p style="margin:0">Plantar faz bem: as plantas dão sombra, abrigam bichinhos e deixam o lugar mais agradável para todos.</p></div><div class="row"><button class="btn ghost" data-act="pm" data-v="plant">Plantar de novo</button><button class="btn" data-act="pm" data-v="menu">Voltar à oficina</button></div>';
+        if (ps < 5) {var p = PL[ps]; return back + '<section class="card"><p class="sub">Passo ' + (ps + 1) + ' de 5</p><h2>' + p[0] + '</h2><div class="scene" aria-hidden="true">' + SC[ps] + '</div><p>' + p[1] + '</p><button class="btn" data-act="pstep">' + p[2] + '</button></section>';}
+        var g = gd > 0 ? GR[gd - 1] : null;
+        return back + '<section class="card"><p class="sub">Hora de esperar</p><h2>Cuide e observe</h2><div class="scene"><span aria-hidden="true">' + (g ? g[0] : SC[5]) + '</span><small>' + (g ? g[1] : "Tudo pronto! Vamos passar alguns dias.") + '</small></div><button class="btn" data-act="pdays">' + (gd === 0 ? "Passar alguns dias" : "Passar mais dias") + '</button></section>';
+      }
+      function treeUI() {
+        var back = '<button class="linkbtn" data-act="pm" data-v="menu">Voltar à oficina</button>';
+        var SC = ["🌍", "📍☀️", "🕳️", "🌱🕳️", "🌱🟤", "🌱💧"];
+        var PL = [["Escolha um bom lugar", "Procure um canto com sol, longe de fios e muros, e peça ajuda de um adulto. Plante só onde for permitido.", "Escolher o lugar"], ["Cave uma cova", "A cova deve ser um pouco maior que o torrão da muda, para as raízes se espalharem.", "Cavar a cova"], ["Coloque a muda", "Tire a muda do saquinho com cuidado e ponha na cova, sem machucar as raízes. Prefira mudas de árvores nativas da sua região.", "Colocar a muda"], ["Cubra com terra", "Preencha a cova com terra e aperte de leve ao redor para a muda ficar firme.", "Cobrir com terra"], ["Regue e apoie", "Regue com calma, só o suficiente para umedecer a terra, e coloque uma estaca para apoiar a muda.", "Regar e apoiar"]];
+        var GR = [["🌱", "Mês 1: a muda se firma e as raízes começam a crescer."], ["🌿", "Ano 1: surgem mais folhas e o caule engrossa."], ["🌳", "Ano 5: a árvore já faz sombra e abriga passarinhos."], ["🌳🐦", "Anos depois: uma árvore grande ajudando o ambiente todos os dias!"]];
+        if (gd >= 4) return back + '<section class="card prize"><div class="medal" aria-hidden="true">🌳</div><h2>Sua árvore cresceu!</h2><p class="lesson">Você escolheu o lugar, plantou e cuidou da muda.</p></section><div class="why"><h3>Por que as árvores ajudam tanto</h3><ul class="pts"><li>Elas usam luz do sol, gás carbônico e água e liberam oxigênio, o ar que respiramos.</li><li>Ajudam a absorver gás carbônico, um gás ligado ao aquecimento do planeta.</li><li>Fazem sombra e deixam o lugar mais fresco.</li><li>Abrigam e alimentam aves, insetos e outros bichos.</li><li>Ajudam a segurar a terra e a água da chuva.</li></ul><p style="margin:0">Dá para plantar de verdade: procure um viveiro, a escola ou a prefeitura para conseguir mudas nativas e plante com um adulto, em local permitido, regando nas primeiras semanas.</p></div><div class="row"><button class="btn ghost" data-act="pm" data-v="tree">Plantar de novo</button><button class="btn" data-act="pm" data-v="menu">Voltar à oficina</button></div>';
+        if (ps < 5) {var p = PL[ps]; return back + '<section class="card"><p class="sub">Passo ' + (ps + 1) + ' de 5</p><h2>' + p[0] + '</h2><div class="scene" aria-hidden="true">' + SC[ps] + '</div><p>' + p[1] + '</p><button class="btn" data-act="pstep">' + p[2] + '</button></section>';}
+        var g = gd > 0 ? GR[gd - 1] : null;
+        return back + '<section class="card"><p class="sub">Hora de esperar</p><h2>Cuide e observe</h2><div class="scene"><span aria-hidden="true">' + (g ? g[0] : SC[5]) + '</span><small>' + (g ? g[1] : "Tudo pronto! Vamos ver o tempo passar.") + '</small></div><button class="btn" data-act="pdays">' + (gd === 0 ? "Passar o tempo" : "Passar mais tempo") + '</button></section>';
+      }
+      function tapUI() {
+        var back = '<button class="linkbtn" data-act="pm" data-v="menu">Voltar à oficina</button>';
+        if (tp.s === 0) return back + '<section class="card"><h2>Feche a torneira!</h2><p class="lesson">Alguém esqueceu a torneira aberta. Gire o botão para fechar o mais rápido que conseguir e descubra quantos litros você economiza.</p><div class="scene" aria-hidden="true">🚰</div><button class="btn" data-act="tapstart">Começar</button></section>';
+        if (tp.s === 1) return back + '<section class="card"><h2>Gire para fechar!</h2><p>Gire o botão em círculos, no sentido horário.</p><div class="tapbox"><div class="spout"></div><div class="stream" id="st"></div><div class="pool" id="pl"></div></div><p class="chip">Água gasta: <span id="lt">0,0 L</span></p><div class="knobwrap"><div class="knob" id="kn" aria-label="Botão da torneira"></div></div><button class="btn ghost" id="tp-step">Girar com um toque</button></section>';
+        var r = tp.res, baldes = Math.floor(r.s / 10);
+        return back + '<section class="card prize"><div class="medal" aria-hidden="true">🚰</div><h2>Torneira fechada!</h2><p class="lesson">Você fechou em <b>' + fmt(r.t) + ' s</b>. Gastou só <b>' + fmt(r.w) + ' L</b> e economizou <b>' + fmt(r.s) + ' L</b>.</p><p>' + (r.t < 6 ? "Que velocidade! " : "") + 'Isso dá para encher cerca de ' + baldes + ' baldes de 10 litros.</p><p class="sub">Seu recorde: ' + fmt(S.tap) + ' L. Conta aproximada: uma torneira aberta gasta cerca de 12 litros por minuto, e comparamos com 10 minutos aberta.</p><div class="row"><button class="btn" data-act="tapagain">Jogar de novo</button><button class="btn ghost" data-act="pm" data-v="menu">Voltar à oficina</button></div></section>';
+      }
+      function tapInit() {
+        var kn = $("#kn"), st = $("#st"), lt = $("#lt"), pl = $("#pl"), sb = $("#tp-step");
+        if (!kn || tp.s !== 1) return;
+        var last = 0, drag = false;
+        function fin() {if (tp.s !== 1) return; var t = (performance.now() - tp.t0) / 1000, w = 0.2 * t, sv = Math.max(0, 120 - w); tp.res = {t: t, w: w, s: sv}; tp.s = 2; S.tap = S.tap == null ? sv : Math.max(S.tap, sv); save(); render();}
+        function upd() {var p = Math.min(1, tp.rot / 540); kn.style.transform = "rotate(" + tp.rot + "deg)"; st.style.width = (30 * (1 - p)) + "px"; if (p >= 1) fin();}
+        function ang(e) {var r = kn.getBoundingClientRect(); return Math.atan2(e.clientY - r.top - r.height / 2, e.clientX - r.left - r.width / 2);}
+        kn.addEventListener("pointerdown", function (e) {drag = true; last = ang(e); try {kn.setPointerCapture(e.pointerId);} catch (x) { } });
+        kn.addEventListener("pointermove", function (e) {if (!drag || tp.s !== 1) return; var a = ang(e), d = (a - last) * 180 / Math.PI; if (d > 180) d -= 360; if (d < -180) d += 360; last = a; tp.rot = Math.max(0, tp.rot + d); upd();});
+        kn.addEventListener("pointerup", function () {drag = false;});
+        kn.addEventListener("pointercancel", function () {drag = false;});
+        sb.addEventListener("click", function () {tp.rot += 60; upd();});
+        (function tick() {if (tp.s !== 1 || !document.body.contains(lt)) return; var t = (performance.now() - tp.t0) / 1000; lt.textContent = fmt(0.2 * t) + " L"; pl.style.width = (40 + Math.min(t, 25) * 9) + "px"; requestAnimationFrame(tick);})();
+      }
+      function limpeza() {
+        var back = '<button class="linkbtn" data-act="cm" data-v="menu">Voltar ao mutirão</button>';
+        if (cm === "menu") return '<a class="back" href="#mapa">Voltar ao mapa</a><h2>Mutirão da Limpeza</h2><p class="sub">Você tem 30 segundos para recolher o máximo de lixo!</p><section class="card"><div class="big-ico" aria-hidden="true">🌊</div><h3>Limpe o rio e a lagoa</h3><p>A correnteza leva o lixo. Toque nos itens para tirá-los da água antes que sigam adiante.</p>' + (S.rio != null ? '<p class="sub">Recorde: ' + S.rio + ' itens</p>' : "") + '<button class="btn" data-act="cm" data-v="rio">Jogar</button></section><section class="card"><div class="big-ico" aria-hidden="true">🛣️</div><h3>Limpe as ruas e vias</h3><p>O lixo está espalhado pela via. Recolha tudo antes que ele passe.</p>' + (S.rua != null ? '<p class="sub">Recorde: ' + S.rua + ' itens</p>' : "") + '<button class="btn" data-act="cm" data-v="rua">Jogar</button></section>';
+        var rio = cm === "rio";
+        if (cl.s === 0) return back + '<section class="card"><h2>' + (rio ? "Rio e lagoa" : "Ruas e vias") + '</h2><p class="lesson">' + (rio ? "O rio está correndo e cheio de lixo. Toque nos itens para recolher." : "A via está suja. Toque no lixo para recolher antes que ele passe.") + ' Cuidado: não toque nos bichos!</p><div class="scene" aria-hidden="true">' + (rio ? "🌊🥤🛍️" : "🛣️🥫📰") + '</div><button class="btn" data-act="cstart">Começar (30 segundos)</button></section>';
+        if (cl.s === 1) return back + '<p class="chip">Tempo: <span id="cg-t">30</span> s · Coletados: <span id="cg-n">0</span></p><div class="field ' + (rio ? "rio" : "rua") + '" id="fd"></div>';
+        var r = cl.res, pct = r.total ? Math.round(r.got / r.total * 100) : 0;
+        var why = rio ? "Lixo na água prejudica peixes e aves, suja a lagoa e segue pelo rio até chegar ao mar. Retirar o lixo mantém a água mais limpa e a vida aquática saudável." : "Lixo nas ruas e vias entope bueiros, ajuda a causar alagamentos e atrai pragas. Ruas limpas deixam a cidade mais saudável e evitam enchentes.";
+        var tip = rio ? "No dia a dia: jogue o lixo na lixeira, nunca no rio ou na lagoa, e participe de mutirões de limpeza com a família e a escola." : "No dia a dia: jogue o lixo na lixeira, nunca nos bueiros, e convide a turma para um mutirão de limpeza da rua.";
+        return back + '<section class="card prize"><div class="medal" aria-hidden="true">' + (rio ? "🌊" : "🛣️") + '</div><h2>' + (pct >= 70 ? "Mestre da limpeza!" : pct >= 40 ? "Bom trabalho!" : "Cada item conta!") + '</h2><p class="lesson">Dos <b>' + r.total + '</b> itens de lixo que passaram, você ajudou a retirar <b>' + r.got + '</b> (' + pct + '%).</p>' + (r.hit ? '<p class="sub">Você tocou em bichos ' + r.hit + ' vez(es). Cuidado com eles!</p>' : "") + '</section><div class="why"><h3>Como isso ajuda</h3><p>' + why + '</p><p style="margin:0">' + tip + '</p></div><div class="row"><button class="btn" data-act="cagain">Jogar de novo</button><button class="btn ghost" data-act="cm" data-v="menu">Voltar ao mutirão</button></div>';
+      }
+      function cInit() {
+        var fd = $("#fd"), tt = $("#cg-t"), nn = $("#cg-n");
+        if (!fd || cl.s !== 1) return;
+        var rio = cm === "rio", W = fd.clientWidth, H = fd.clientHeight, items = [], last = performance.now(), acc = 0.6;
+        var TR = rio ? ["🥤", "🛍️", "🥫", "👟", "📦", "🍾"] : ["🥤", "🛍️", "📰", "🥫", "🧃", "📦"];
+        var AN = rio ? ["🐟", "🦦"] : ["🐈", "🐦"];
+        function spawn() {
+          var an = Math.random() < 0.18, L = an ? AN : TR, b = document.createElement("button");
+          b.type = "button"; b.className = "it"; b.textContent = L[Math.floor(Math.random() * L.length)];
+          b.setAttribute("aria-label", an ? "Bicho, não toque" : "Lixo, toque para recolher");
+          var o = rio ? 44 + Math.random() * (H - 44 * 2 - 56) : 10 + Math.random() * (W - 76);
+          var it = {el: b, p: -60, v: 60 + Math.random() * 40};
+          if (rio) {b.style.top = o + "px"; b.style.left = "-60px";} else {b.style.left = o + "px"; b.style.top = "-60px";}
+          if (!an) cl.total++;
+          b.addEventListener("pointerdown", function (e) {e.preventDefault(); if (!b.isConnected || cl.s !== 1) return; b.remove(); if (an) {cl.hit++; cl.got = Math.max(0, cl.got - 1);} else {cl.got++;} nn.textContent = cl.got;});
+          fd.appendChild(b); items.push(it);
+        }
+        (function tick(now) {
+          if (cl.s !== 1 || !document.body.contains(fd)) return;
+          var dt = (now - last) / 1000; last = now; acc += dt;
+          var el = (now - cl.t0) / 1000;
+          if (el >= 30) {cl.res = {got: cl.got, total: cl.total, hit: cl.hit}; cl.s = 2; var k = rio ? "rio" : "rua"; S[k] = S[k] == null ? cl.got : Math.max(S[k], cl.got); save(); render(); return;}
+          if (acc > 0.65) {acc = 0; spawn();}
+          items = items.filter(function (it) {
+            if (!it.el.isConnected) return false;
+            it.p += it.v * dt;
+            if (it.p > (rio ? W : H)) {it.el.remove(); return false;}
+            if (rio) it.el.style.left = it.p + "px"; else it.el.style.top = it.p + "px";
+            return true;
+          });
+          tt.textContent = Math.ceil(30 - el);
+          requestAnimationFrame(tick);
+        })(performance.now());
+      }
+      function ilha(k) {
+        S.visited[k] = 1; save(); var e = E[k];
+        return '<a class="back" href="#mapa">Voltar ao mapa</a><section class="card"><div class="big-ico" aria-hidden="true">' + e.i + '</div><p class="sub">' + e.t + '</p><h2>' + e.n + '</h2><ul class="pts">' + e[S.age].map(function (x) {return "<li>" + x + "</li>";}).join("") + '</ul></section><a class="btn" href="#' + e.next[0] + '">' + e.next[1] + '</a>';
+      }
+      function head() {
+        $("#ages").innerHTML = [["a", "8 a 11 anos"], ["b", "12 a 16 anos"]].map(function (x) {return '<button data-act="age" data-v="' + x[0] + '" aria-pressed="' + (S.age === x[0]) + '">' + x[1] + '</button>';}).join("");
+      }
+      function render() {
+        var k = location.hash.slice(1); if (!V[k]) k = "inicio";
+        $("#app").innerHTML = V[k](); document.body.className = (k === "inicio" || k === "mapa") ? "" : "w"; head(); if (k === "premio" && prog() >= 5) confetti(); if (k === "ilha-pratica" && pm === "tap") tapInit(); if (k === "ilha-limpeza" && cm !== "menu" && cl.s === 1) cInit();
+      }
+      function confetti() {
+        if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        var old = document.getElementById("cf"); if (old) old.remove();
+        var c = document.createElement("canvas"); c.id = "cf"; c.setAttribute("aria-hidden", "true");
+        c.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50";
+        document.body.appendChild(c);
+        var w = c.width = window.innerWidth, h = c.height = window.innerHeight, g = c.getContext("2d");
+        var cols = ["#2f8f45", "#9bdc5a", "#5ec3ee", "#a8defa", "#ffd23f", "#ffe27a"], P = [];
+        for (var i = 0; i < 150; i++)P.push({x: Math.random() * w, y: -20 - Math.random() * h * 0.6, s: 6 + Math.random() * 7, vx: (Math.random() - 0.5) * 3, vy: 2 + Math.random() * 3.5, r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.3, c: cols[i % cols.length]});
+        var t0 = performance.now();
+        (function f(t) {
+          g.clearRect(0, 0, w, h);
+          P.forEach(function (p) {p.x += p.vx; p.y += p.vy; p.r += p.vr; g.save(); g.translate(p.x, p.y); g.rotate(p.r); g.fillStyle = p.c; g.fillRect(-p.s / 2, -p.s / 3, p.s, p.s * 0.6); g.restore();});
+          if (t - t0 < 4500) requestAnimationFrame(f); else c.remove();
+        })(t0);
+      }
+      function top() {window.scrollTo(0, 0);}
+      document.addEventListener("click", function (ev) {
+        var b = ev.target.closest("[data-act]"); if (!b) return;
+        var a = b.dataset.act, i = +b.dataset.i;
+        if (a === "age") {S.age = b.dataset.v; save(); render();}
+        else if (a === "ch") {S.ch[i] = !S.ch[i]; save(); render();}
+        else if (a === "prev") {step--; render(); top();}
+        else if (a === "next") {step++; if (step === 3) {S.trail = true; save(); qi = 0; sc = 0; ans = null; wrong = null; first = true;} render(); top();}
+        else if (a === "ans" && ans === null && wrong === null) {if (i === QZ[qi].c) {ans = i; if (first) sc++;} else {wrong = i; first = false;} render();}
+        else if (a === "retry") {wrong = null; render();}
+        else if (a === "qnext") {qi++; ans = null; wrong = null; first = true; if (qi >= QZ.length) {S.quiz = Math.max(S.quiz == null ? 0 : S.quiz, sc); save(); step = 4;} render(); top();}
+        else if (a === "redo") {step = 3; qi = 0; sc = 0; ans = null; wrong = null; first = true; render(); top();}
+        else if (a === "conf") {confetti();}
+        else if (a === "pm") {pm = b.dataset.v; ps = 0; gd = 0; tp = {s: 0, rot: 0, t0: 0, res: null}; render(); top();}
+        else if (a === "pstep") {ps++; render();}
+        else if (a === "pdays") {gd++; if (gd >= 4) {if (pm === "tree") S.tree = true; else S.plant = true; save(); confetti();} render();}
+        else if (a === "tapstart") {tp = {s: 1, rot: 0, t0: performance.now(), res: null}; render();}
+        else if (a === "tapagain") {tp = {s: 0, rot: 0, t0: 0, res: null}; render();}
+        else if (a === "cm") {cm = b.dataset.v; cl = {s: 0}; render(); top();}
+        else if (a === "cstart") {cl = {s: 1, t0: performance.now(), got: 0, total: 0, hit: 0, res: null}; render();}
+        else if (a === "cagain") {cl = {s: 0}; render();}
+        else if (a === "reset") {S = {age: S.age, visited: {}, trail: false, quiz: null, ch: [false, false, false], plant: false, tap: null, tree: false, rio: null, rua: null}; save(); render();}
+      });
+      window.addEventListener("hashchange", function () {step = 0; qi = 0; sc = 0; ans = null; wrong = null; first = true; pm = "menu"; ps = 0; gd = 0; tp = {s: 0, rot: 0, t0: 0, res: null}; cm = "menu"; cl = {s: 0}; render(); top();});
+      render();
+    })();
+  </script>
+</body>
+
+</html>
